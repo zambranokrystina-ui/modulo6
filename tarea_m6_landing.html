@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Tarea Módulo 6 — Mentes Abundantes</title>
+  <link href="https://fonts.googleapis.com/css2?family=Nunito+Sans:wght@400;600;700;800&display=swap" rel="stylesheet" />
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      min-height: 100vh;
+      background: #FAF6F0;
+      font-family: 'Nunito Sans', 'Segoe UI', sans-serif;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 24px 16px;
+    }
+
+    .card {
+      background: #FFFFFF;
+      border-radius: 24px;
+      padding: 40px 32px;
+      max-width: 420px;
+      width: 100%;
+      box-shadow: 0 8px 32px rgba(21,32,56,0.10);
+      text-align: center;
+    }
+
+    .badge {
+      display: inline-block;
+      background: #152038;
+      color: #D4762C;
+      font-size: 11px;
+      font-weight: 800;
+      letter-spacing: 2px;
+      padding: 6px 16px;
+      border-radius: 20px;
+      margin-bottom: 24px;
+    }
+
+    .emoji { font-size: 48px; margin-bottom: 16px; }
+
+    h1 {
+      font-size: 26px;
+      font-weight: 800;
+      color: #152038;
+      margin-bottom: 8px;
+      line-height: 1.25;
+    }
+
+    .subtitle {
+      font-size: 14px;
+      color: #6B7280;
+      margin-bottom: 28px;
+      line-height: 1.6;
+    }
+
+    .historias {
+      background: #F5E6C8;
+      border-radius: 14px;
+      padding: 16px 20px;
+      margin-bottom: 28px;
+      text-align: left;
+    }
+
+    .historias p {
+      font-size: 12px;
+      font-weight: 700;
+      color: #152038;
+      margin-bottom: 10px;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+
+    .historia-item {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 8px;
+    }
+
+    .historia-item:last-child { margin-bottom: 0; }
+
+    .historia-item span { font-size: 18px; }
+
+    .historia-text strong {
+      font-size: 13px;
+      color: #152038;
+      font-weight: 700;
+      display: block;
+    }
+
+    .historia-text small {
+      font-size: 11px;
+      color: #6B7280;
+    }
+
+    .btn {
+      display: block;
+      width: 100%;
+      padding: 18px;
+      background: #D4762C;
+      color: #FFFFFF;
+      font-size: 16px;
+      font-weight: 800;
+      border: none;
+      border-radius: 14px;
+      cursor: pointer;
+      text-decoration: none;
+      box-shadow: 0 4px 16px rgba(212,118,44,0.35);
+      transition: transform 0.2s, box-shadow 0.2s;
+      margin-bottom: 14px;
+    }
+
+    .btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 24px rgba(212,118,44,0.4);
+    }
+
+    .deadline {
+      font-size: 12px;
+      color: #8B9A5B;
+      font-weight: 600;
+    }
+
+    .footer {
+      margin-top: 28px;
+      padding-top: 20px;
+      border-top: 1px solid #F0F0F0;
+      font-size: 12px;
+      color: #6B7280;
+    }
+
+    .footer strong { color: #152038; }
+  </style>
+</head>
+<body>
+  <div class="card">
+    <div class="badge">MENTES ABUNDANTES</div>
+    <div class="emoji">✍️</div>
+    <h1>Tarea<br>Módulo 6</h1>
+    <p class="subtitle">Tu Historia como Herramienta de Marca — trabaja a tu ritmo, tus respuestas se guardan automáticamente.</p>
+
+    <div class="historias">
+      <p>Esta semana trabajarás:</p>
+      <div class="historia-item">
+        <span>🌱</span>
+        <div class="historia-text">
+          <strong>Historia de Origen</strong>
+          <small>Por qué empezaste</small>
+        </div>
+      </div>
+      <div class="historia-item">
+        <span>🦋</span>
+        <div class="historia-text">
+          <strong>Historia de Transformación</strong>
+          <small>Cómo cambiaste tú</small>
+        </div>
+      </div>
+      <div class="historia-item">
+        <span>🤝</span>
+        <div class="historia-text">
+          <strong>Historia del Cliente</strong>
+          <small>A quién ayudas y cómo cambia su vida</small>
+        </div>
+      </div>
+    </div>
+
+    <a href="https://modulo6-zambranokrystina-uis-projects.vercel.app/" class="btn">
+      Comenzar mi tarea →
+    </a>
+
+    <p class="deadline">📅 Fecha límite: jueves antes de la próxima sesión</p>
+
+    <div class="footer">
+      <strong>Krystina · Mentes Abundantes</strong><br>
+      Tu Voz Antes que Tu Nicho
+    </div>
+  </div>
+</body>
+</html>
