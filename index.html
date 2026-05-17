@@ -90,29 +90,44 @@
     ];
 
     const SCREENS = { SELECT: "select", HOMEWORK: "homework", ADMIN: "admin" };
+    const SHEETS_WEBHOOK = "https://script.google.com/macros/s/AKfycbw_pQtch1l8MfGCxiWst1ERTEcbhYsW2ue7zOuYYNrGAJcFeZ3A1Xgk0M8RjKm9L4nY/exec";
 
-    // ─── Storage helpers ───────────────────────────────────────
-    async function loadResponses(memberId) {
+    // ─── Storage helpers (localStorage + Google Sheets) ────────
+    function loadResponses(memberId) {
       try {
-        const result = await window.storage.get(`m6:${memberId}`);
-        if (!result || !result.value || result.value === "") return null;
-        const parsed = JSON.parse(result.value);
+        const raw = localStorage.getItem(`m6:${memberId}`);
+        if (!raw) return null;
+        const parsed = JSON.parse(raw);
         if (!parsed || Object.keys(parsed).length === 0) return null;
         return parsed;
       } catch { return null; }
     }
 
     async function saveResponses(memberId, data) {
+      // 1. Guardar en localStorage
       try {
-        await window.storage.set(`m6:${memberId}`, JSON.stringify(data));
-        return true;
-      } catch { return false; }
+        localStorage.setItem(`m6:${memberId}`, JSON.stringify(data));
+      } catch {}
+
+      // 2. Enviar a Google Sheets
+      const member = MEMBERS.find(m => m.id === memberId);
+      if (member) {
+        try {
+          await fetch(SHEETS_WEBHOOK, {
+            method: "POST",
+            mode: "no-cors",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ nombre: member.name, negocio: member.business, ...data }),
+          });
+        } catch {}
+      }
+      return true;
     }
 
-    async function loadAllResponses() {
+    function loadAllResponses() {
       const all = {};
       for (const m of MEMBERS) {
-        const r = await loadResponses(m.id);
+        const r = loadResponses(m.id);
         if (r) all[m.id] = r;
       }
       return all;
@@ -273,10 +288,9 @@
       const [loaded, setLoaded] = useState(false);
 
       useEffect(() => {
-        loadResponses(member.id).then(data => {
-          if (data) setResponses(data);
-          setLoaded(true);
-        });
+        const data = loadResponses(member.id);
+        if (data) setResponses(data);
+        setLoaded(true);
       }, [member.id]);
 
       const update = (key, val) => {
@@ -346,7 +360,9 @@
       const [showReset, setShowReset] = useState(false);
 
       useEffect(() => {
-        loadAllResponses().then(data => { setAllData(data); setLoading(false); });
+        const data = loadAllResponses();
+        setAllData(data);
+        setLoading(false);
       }, []);
 
       const generateCSV = useCallback(() => {
@@ -390,10 +406,9 @@
         a.click(); URL.revokeObjectURL(url);
       };
 
-      const handleResetAll = async () => {
+      const handleResetAll = () => {
         for (const m of MEMBERS) {
-          try { await window.storage.set(`m6:${m.id}`, ""); } catch {}
-          try { await window.storage.delete(`m6:${m.id}`); } catch {}
+          try { localStorage.removeItem(`m6:${m.id}`); } catch {}
         }
         setAllData({}); setShowReset(false);
       };
@@ -508,7 +523,8 @@
       const [completedIds, setCompletedIds] = useState(new Set());
 
       useEffect(() => {
-        loadAllResponses().then(data => setCompletedIds(new Set(Object.keys(data))));
+        const data = loadAllResponses();
+        setCompletedIds(new Set(Object.keys(data)));
       }, []);
 
       const handleSelect = member => { setSelectedMember(member); setScreen(SCREENS.HOMEWORK); };
@@ -516,7 +532,8 @@
       const handleBack = () => {
         setScreen(SCREENS.SELECT);
         setSelectedMember(null);
-        loadAllResponses().then(data => setCompletedIds(new Set(Object.keys(data))));
+        const data = loadAllResponses();
+        setCompletedIds(new Set(Object.keys(data)));
       };
 
       return (
